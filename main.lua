@@ -1,6 +1,6 @@
 debug = false
 
-isServer = false
+isServer = true
 
 Sock = require "sock"
 Bitser = require "bitser"
@@ -26,6 +26,7 @@ require "class/Label"
 require "class/Zone"
 require "class/Player"
 require "class/RectMask"
+require "class/Stairway"
 
 require "state/server_menu"
 require "state/client_menu"
@@ -37,6 +38,7 @@ require "zones/zone1"
 require "zones/zone2"
 
 sprites = {}
+quads = {}
 
 SW = love.graphics.getWidth()
 SH = love.graphics.getHeight()
@@ -52,20 +54,20 @@ mousePos = {}
 TICK = 0
 FPS = 1/60
 
-ipAddress = "10.246.2.249"
+ipAddress = "192.168.0.13"
 
 function love.load(arg)
   if debug then require("mobdebug").start() end
   Gamestate.registerEvents()
   love.keyboard.setKeyRepeat(true)
   FNT.DEFAULT = love.graphics.newFont(math.floor(SH/64))
+  loadImages()
   ZONES = loadZones()
   mousePos = HC.point(0,0)
   love.graphics.setFont(FNT.DEFAULT)
   love.graphics.setBackgroundColor(CLR.BLACK)
   CUR.H = love.mouse.getSystemCursor("hand")
   CUR.I = love.mouse.getSystemCursor("ibeam")
-  loadImages()
   fpsCounter = Label("FPS", .015, .03, "left", CLR.WHITE)
   if isServer then
     server_data = loadServerData()
@@ -97,7 +99,13 @@ function loadZones()
 end
 
 function loadImages()
-  sprites.tile_dark = love.graphics.newImage("images/spr_tile_dark.png")
+  sprites.door_up = love.graphics.newImage("images/door_up.png")
+  sprites.door_down = love.graphics.newImage("images/door_down.png")
+  sprites.museum_background = love.graphics.newImage("images/background_tile.png")
+  sprites.museum_background:setWrap("repeat","repeat")
+  quads.museum_background = love.graphics.newQuad(0,0,2000,430, 64,64)
+  sprites.wall = love.graphics.newImage("images/wall.png")
+  sprites.wall:setWrap("repeat","repeat")
 end
 
 function loadServerData()

@@ -80,7 +80,7 @@ FillableField = Class{__includes = Button,
         end
       else
         local toAdd = key
-        if toAdd and string.len(self.text) < self.textLimit then
+        if toAdd ~= nil and string.len(self.text) < self.textLimit then
           if self.lineIndex == 0 then
             self.text = toAdd .. self.text
           elseif self.lineIndex == self.text:len() then

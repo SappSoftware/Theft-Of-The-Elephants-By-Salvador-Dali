@@ -21,8 +21,8 @@ function game:init()
 end
 
 function game:enter(from)
-  love.graphics.setBackgroundColor(CLR.WHITE)
-
+  love.graphics.setBackgroundColor(CLR.BLACK)
+  love.keyboard.setKeyRepeat(false)
   camera:lookAt(0, 0)
   
   worldMouse:moveTo(camera:worldCoords(mousePos:center()))
@@ -57,6 +57,8 @@ function game:keypressed(key)
   if key == "escape" then
     --Gamestate.switch(main_menu)
   end
+  
+  client:keypressed(key)
 end
 
 function game:textinput(text)
