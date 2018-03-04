@@ -92,11 +92,16 @@ ClientObject = Class{
     end
   end;
   
+  keypressed = function(self, key)
+    self.player:keypressed(key)
+  end;
+  
   draw = function(self)
     love.graphics.print(self.sender:getState(), 5, 5)
   end;
   
   draw_game = function(self)
+    self.player:flashlight()
     self.activeZone:draw(self.player.player_id)
   end;
   

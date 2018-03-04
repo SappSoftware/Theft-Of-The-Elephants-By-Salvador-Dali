@@ -22,6 +22,6 @@ RectMask = Class{
   end;
   
   draw = function(self)
-    self.mask:draw("line")
+    self.mask:draw("fill")
   end;
 }

@@ -61,6 +61,7 @@ function server_menu:draw()
   drawFPS(fpsCounter)
   
   if isWatching == false then
+    love.graphics.setBackgroundColor(CLR.BLACK)
     for i, button in pairs(buttons) do
       button:draw()
     end
@@ -78,6 +79,7 @@ function server_menu:draw()
 end
 
 function server_menu:draw_game()
+  love.graphics.setBackgroundColor(CLR.WHITE)
   server.activeZone:draw()
 end
 
@@ -94,8 +96,11 @@ function server_menu:keypressed(key)
     field:keypressed(key)
   end
   
+  
   if key == "tab" then
-    isWatching = not isWatching
+    if server then
+      isWatching = not isWatching
+    end
   end
   
   if key == "escape" then

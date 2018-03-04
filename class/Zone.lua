@@ -5,6 +5,7 @@ Zone = Class{
     self.npcs = {}
     self.zone_id = zone_id
     self.masks = self:initializeMasks(zone_id)
+    self.stairways = self:initializeStairways(zone_id)
     self.isConnected = true
   end;
   
@@ -25,12 +26,30 @@ Zone = Class{
     return masks
   end;
   
+  initializeStairways = function(self, zone_id)
+    local stairways = {}
+    for i, data in ipairs(ZONES[zone_id].stairways) do
+      local stairway = Stairway(data.x1, data.y1, sprites[data.sprite1], data.x2, data.y2, sprites[data.sprite2])
+      table.insert(stairways, stairway)
+    end
+    return stairways
+  end;
+  
   draw = function(self, player_id)
-    love.graphics.setColor(CLR.RED)
+    love.graphics.setColor(CLR.WHITE)
+    
+    love.graphics.draw(sprites.museum_background, quads.museum_background, -250,-345, 0, 1,1)
+    
+    love.graphics.setColor(CLR.GREY)
     
     for i, mask in ipairs(self.masks) do
-      mask:draw("line")
+      mask:draw()
     end
+    
+    for i, stairway in ipairs(self.stairways) do
+      stairway:draw()
+    end
+    
     for i, player in pairs(self.players) do
       if i ~= player_id then
         player:draw()
