@@ -1,7 +1,5 @@
 ClientObject = Class{
   init = function(self, ip, port, user_data, registering)
-    self.tickRate = 1/60
-    self.tick = 0
     self.sender = Sock.newClient(ip, port)
     self.sender:setSerialization(Bitser.dumps, Bitser.loads)
     self.user_data = user_data
@@ -9,7 +7,7 @@ ClientObject = Class{
     self.isConnected = false
     self:setCallbacks()
     self.sender:connect()
-    self.activeZone = {}
+    self.lobby = {}
     self.player = {}
   end;
   
@@ -50,45 +48,42 @@ ClientObject = Class{
       end
     end)
     
-    self.sender:on("joinZone", function(data)
-      self.activeZone = Zone(data.zone_id, data.players_data)
-      self.player = self.activeZone.players[self.user_data.username]
+    self.sender:on("createLobby", function(data)
+      
+    end)
+    
+    self.sender:on("joinLobby", function(data)
+      
+    end)
+    
+    self.sender:on("joinMap", function(data)
+      self.activeMap = Map(data.map_id, data.players_data)
+      self.player = self.activeMap.players[self.user_data.username]
     end)
     
     self.sender:on("updatePlayers", function(data)
-      self.activeZone.players_data = data
+      self.activeMap.players_data = data
     end)
     
     self.sender:on("removePlayer", function(data)
-      self.activeZone:removePlayer(data)
+      self.activeMap:removePlayer(data)
     end)
   end;
   
   update_menu = function(self, dt)
-    self.tick = self.tick + dt
-    
-    if self.tick >= self.tickRate then
-      self.sender:update(self.tick)
-      
-      self.tick = 0
-    end
+    self.sender:update(dt)
   end;
   
   update_game = function(self, dt, mousePos)
-    self.tick = self.tick + dt
+    self.sender:update(dt)
     
-    if self.tick >= self.tickRate then
-      self.sender:update(self.tick)
+    if self.activeMap ~= {} then
+      self.player:update(dt, mousePos)
       
-      if self.activeZone ~= {} then
-        self.player:update(self.tick, mousePos)
-        
-        self.activeZone:update(self.tick, self.user_data.username)
-        
-        local data = {self.player:getUpdate()}
-        self.sender:send("updatePlayer", data)
-      end
-      self.tick = 0
+      self.activeMap:update(dt, self.user_data.username)
+      
+      local data = {self.player:getUpdate()}
+      self.sender:send("updatePlayer", data)
     end
   end;
   
@@ -102,10 +97,18 @@ ClientObject = Class{
   
   draw_game = function(self)
     self.player:flashlight()
-    self.activeZone:draw(self.player.player_id)
+    self.activeMap:draw(self.player.player_id)
   end;
   
-  joinZone = function(self)
-    self.sender:send("joinZone", self.user_data.username)
+  createLobby = function(self)
+    
+  end;
+  
+  joinLobby = function(self)
+    
+  end;
+  
+  joinMap = function(self)
+    self.sender:send("joinMap", self.user_data.username)
   end;
   }

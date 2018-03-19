@@ -24,29 +24,25 @@ end
 
 function login:update(dt)
   
-  TICK = TICK + dt
   self:handleMouse(dt)
+
+  if client ~= nil then
+    client:update_menu(dt)
+  end
   
-  if TICK >= FPS then
-    if client ~= nil then
-      client:update_menu(dt)
-    end
-    
-    for i, button in pairs(buttons) do
-      button:update(dt)
-    end
-    
-    for _, field in pairs(fields) do
-      field:update(TICK)
-    end
-    
-    if fields.username:getvalue() ~= fields.username.default_text and string.gsub(fields.username:getvalue(), " ", "") ~= "" 
-    and fields.password:getvalue() ~= fields.password.default_text and string.gsub(fields.password:getvalue(), " ", "") ~= "" then
-      buttons.login.isSelectable = true
-    else
-      buttons.login.isSelectable = false
-    end
-    TICK = 0
+  for i, button in pairs(buttons) do
+    button:update(dt)
+  end
+  
+  for _, field in pairs(fields) do
+    field:update(dt)
+  end
+  
+  if fields.username:getvalue() ~= fields.username.default_text and string.gsub(fields.username:getvalue(), " ", "") ~= "" 
+  and fields.password:getvalue() ~= fields.password.default_text and string.gsub(fields.password:getvalue(), " ", "") ~= "" then
+    buttons.login.isSelectable = true
+  else
+    buttons.login.isSelectable = false
   end
 end
 

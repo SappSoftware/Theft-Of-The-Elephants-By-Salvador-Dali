@@ -1,11 +1,12 @@
-Zone = Class{
-  init = function(self, zone_id, players_data)
+Map = Class{
+  init = function(self, map_id, players_data)
     self.players_data = players_data
     self.players = self:initializePlayers()
     self.npcs = {}
-    self.zone_id = zone_id
-    self.masks = self:initializeMasks(zone_id)
-    self.stairways = self:initializeStairways(zone_id)
+    self.map_id = map_id
+    self.walls = self:initializeWalls(map_id)
+    self.stairways = self:initializeStairways(map_id)
+    self.rooms = self:initializeRooms(map_id)
     self.isConnected = true
   end;
   
@@ -17,33 +18,43 @@ Zone = Class{
     return returnTable
   end;
   
-  initializeMasks = function(self, zone_id)
-    local masks = {}
-    for i, data in ipairs(ZONES[zone_id].masks) do
-      local box = RectMask(data.x, data.y, data.w, data.h, data.rot)
-      table.insert(masks, box)
+  initializeWalls = function(self, map_id)
+    local walls = {}
+    for i, data in ipairs(MAPS[map_id].walls) do
+      local box = Wall(data.x, data.y, data.w, data.h, data.rot)
+      table.insert(walls, box)
     end
-    return masks
+    return walls
   end;
   
-  initializeStairways = function(self, zone_id)
+  initializeStairways = function(self, map_id)
     local stairways = {}
-    for i, data in ipairs(ZONES[zone_id].stairways) do
+    for i, data in ipairs(MAPS[map_id].stairways) do
       local stairway = Stairway(data.x1, data.y1, sprites[data.sprite1], data.x2, data.y2, sprites[data.sprite2])
       table.insert(stairways, stairway)
     end
     return stairways
   end;
   
+  initializeRooms = function(self, map_id)
+    local rooms = {}
+    for i, data in ipairs(MAPS[map_id].rooms) do
+      local room = Room(data.x,data.y,data.w,data.h, i)
+      table.insert(rooms, room)
+    end
+    return rooms
+  end;
+  
   draw = function(self, player_id)
     love.graphics.setColor(CLR.WHITE)
     
-    love.graphics.draw(sprites.museum_background, quads.museum_background, -250,-345, 0, 1,1)
+    for i, room in ipairs(self.rooms) do
+      room:draw()
+    end
     
     love.graphics.setColor(CLR.GREY)
-    
-    for i, mask in ipairs(self.masks) do
-      mask:draw()
+    for i, wall in ipairs(self.walls) do
+      wall:draw()
     end
     
     for i, stairway in ipairs(self.stairways) do
@@ -83,7 +94,7 @@ Zone = Class{
   
   addPlayer = function(self, player, index)
     local data = {x = player.pos.x, y = player.pos.y, dir = player.dir, player_id = player.player_id}
-    player.activeZone = self
+    player.activeMap = self
     self.players_data[index] = data
     self.players[index] = player
   end;

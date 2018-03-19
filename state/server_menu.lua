@@ -80,7 +80,7 @@ end
 
 function server_menu:draw_game()
   love.graphics.setBackgroundColor(CLR.WHITE)
-  server.activeZone:draw()
+  --server.activeMap:draw()
 end
 
 function server_menu:textinput(key)

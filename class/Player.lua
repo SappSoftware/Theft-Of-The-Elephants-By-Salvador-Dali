@@ -1,28 +1,36 @@
 Player = Class{
-  init = function(self, player_id, parentZone, x, y, dir)
+  init = function(self, player_id, parentMap, x, y, dir)
     self.player_id = player_id
-    self.pos = Vector(x or 0, y or 0)
+    self.pos = Vector(x or -700, y or 700)
+    self.sprite = sprites.burglar
     self.dx = 0
     self.dy = 0
-    self.width = 40
-    self.height = 70
-    self.speed = 400
+    self.width = 200
+    self.height = 300
+    self.speed = 600
     self.accelC = 50
     self.dir = dir or 0
     self.dirLine = {self.pos.x, self.pos.y, self.pos.x + math.cos(self.dir)*self.width/2, self.pos.y + math.sin(self.dir)*self.width/2}
+    self.offset = Vector(self.width/2, self.height/2)
     self.acceleration = Vector(0,0)
     self.velocity = Vector(0,0)
     self.label = Label(self.player_id, self.pos.x, self.pos.y+self.height/4, "center", CLR.BLACK)
     self.mask = HC.rectangle(self.pos.x, self.pos.y, self.width, self.height)
-    self.parentZone = parentZone or false
+    self.parentMap = parentMap or nil
   end;
   
   draw = function(self)
+    --[[
     love.graphics.setColor(CLR.GREY)
     self.mask:draw("fill")
     love.graphics.setColor(CLR.RED)
     self.mask:draw("line")
     love.graphics.line(self.dirLine)
+    ]]--
+    if self.sprite ~= nil then
+      love.graphics.setColor(CLR.WHITE)
+      love.graphics.draw(self.sprite, self.pos.x, self.pos.y, 0, math.cos(self.dir), 1, self.offset.x, self.offset.y)
+    end
     self.label:draw()
   end;
   
@@ -50,11 +58,11 @@ Player = Class{
     
     self.mask:moveTo(nextpos:unpack())
     
-    if self.parentZone ~= false then
+    if self.parentMap ~= nil then
       local diff = Vector(0,0)
       local collides = {}
       local collisionResolved = true
-      for i, object in ipairs(self.parentZone.masks) do
+      for i, object in ipairs(self.parentMap.walls) do
         local test, dx, dy = self.mask:collidesWith(object.mask)
         --attempt saving all collisions, resolve as a whole rather than in order
         if test == true then
@@ -89,7 +97,7 @@ Player = Class{
         end
       end
       ------------------------METHOD FOUR----------------------------------
-      for i, stairway in ipairs(self.parentZone.stairways) do
+      for i, stairway in ipairs(self.parentMap.stairways) do
         stairway:highlight(self.mask)
       end
     end
@@ -105,7 +113,7 @@ Player = Class{
   
   keypressed = function(self, key)
     if key == "w" then
-      for i, stairway in ipairs(self.parentZone.stairways) do
+      for i, stairway in ipairs(self.parentMap.stairways) do
         local test = stairway:useDoor()
         if test ~= nil then
           self.pos = test - Vector(0, self.height/2)
@@ -116,8 +124,10 @@ Player = Class{
   end;
   
   flashlight = function(self)
+    --[[
     love.graphics.stencil(function() love.graphics.circle("fill", self.pos.x, self.pos.y, 100) end, "replace", 1)
     love.graphics.setStencilTest("greater", 0)
+    ]]--
   end;
   
   updateExt = function(self, x, y, dir)

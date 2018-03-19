@@ -5,8 +5,10 @@ local fields = {}
 local labels = {}
 
 function client_menu:init()
-  buttons.joinGame = Button(.5, 5/8, 1/8, 1/12, "Join Zone")
-  buttons.joinGame.action = self.joinGame
+  buttons.createLobby = Button(.5, 5/8, 1/8, 1/12, "Create Lobby")
+  buttons.joinLobby = Button(.5, 6/8, 1/8, 1/12, "Join Lobby")
+  buttons.createLobby.action = self.createLobby
+  buttons.joinLobby.action = self.joinLobby
 end
 
 function client_menu:update(dt)
@@ -14,7 +16,7 @@ function client_menu:update(dt)
   
   client:update_menu(dt)
   
-  if client.activeZone.isConnected == true then
+  if client.lobby.isConnected == true then
     Gamestate.switch(game)
   end
 end
@@ -81,6 +83,10 @@ function client_menu:handleMouse(dt)
   end
 end
 
-function client_menu:joinGame()
-  client:joinZone()
+function client_menu:createLobby()
+  client:createLobby()
+end
+
+function client_menu:joinLobby()
+  client:joinLobby()
 end

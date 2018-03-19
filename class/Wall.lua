@@ -1,4 +1,4 @@
-RectMask = Class{
+Wall = Class{
   init = function(self, x, y, w, h, rotation)
     self.x = x
     self.y = y

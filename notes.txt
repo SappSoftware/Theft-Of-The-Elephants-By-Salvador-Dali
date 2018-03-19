@@ -1,0 +1,10 @@
+Two primary player types:
+	Chameleon
+	Investigator
+
+Investigators throw paint onto splotch 
+flashlights as triangles
+zoom in camera
+make ceilings higher
+create art
+

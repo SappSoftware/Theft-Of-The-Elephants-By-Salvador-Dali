@@ -55,7 +55,7 @@ function game:keypressed(key)
   end
   
   if key == "escape" then
-    --Gamestate.switch(main_menu)
+    love.event.quit()
   end
   
   client:keypressed(key)
@@ -114,7 +114,7 @@ function game:drawUI()
 end
 
 function game:drawDebug()
-  love.graphics.setColor(CLR.BLACK)
+  love.graphics.setColor(CLR.WHITE)
   love.graphics.print(love.timer.getFPS(), 10, 10)
 end
 

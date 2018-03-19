@@ -1,14 +1,12 @@
 local floor = math.floor
 ServerObject = Class{
   init = function(self, ip, port, playerListData)
-    self.tickRate = 1/60
-    self.tick = 0
     self.sender = Sock.newServer(ip, port)
     self.sender:setSerialization(Bitser.dumps, Bitser.loads)
     self:setCallbacks()
     self.playerList = {}
     self.fullPlayerList = playerListData
-    self.activeZone = Zone(1, {})
+    self.lobbies = {}
   end;
   
   setCallbacks = function(self)
@@ -30,7 +28,7 @@ ServerObject = Class{
     
     self.sender:on("disconnect", function(data, client)
       local index = client:getIndex()
-      self.activeZone:removePlayer(self.playerList[index])
+      self.activeMap:removePlayer(self.playerList[index])
       self.sender:sendToAll("removePlayer", self.playerList[index])
       self.playerList[index] = nil
       
@@ -67,31 +65,33 @@ ServerObject = Class{
       client:send("login", success)
     end)
     
-    self.sender:on("joinZone", function(data, client)
+    self.sender:on("createLobby", function(data, client)
+      
+    end)
+    
+    self.sender:on("joinLobby", function(data, client)
+      
+    end)
+    
+    self.sender:on("joinMap", function(data, client)
       local player_id = data
-      self.activeZone:addPlayer(Player(player_id), player_id)
-      local sendData = {zone_id = self.activeZone.zone_id, players_data = self.activeZone.players_data}
-      client:send("joinZone", sendData)
+      self.activeMap:addPlayer(Player(player_id), player_id)
+      local sendData = {map_id = self.activeMap.map_id, players_data = self.activeMap.players_data}
+      client:send("joinMap", sendData)
     end)
     
     self.sender:on("updatePlayer", function(data, client)
       local index = client:getIndex()
-      self.activeZone.players_data[data.player_id] = data
+      self.activeMap.players_data[data.player_id] = data
     end)
   end;
   
   update = function(self, dt)
-    self.tick = self.tick + dt
+    self.sender:update(dt)
     
-    if self.tick >= self.tickRate then
-      self.sender:update(self.tick)
-      
-      self.activeZone:update(self.tick)
-      
-      self.sender:sendToAll("updatePlayers", self.activeZone.players_data)
-      
-      self.tick = 0
-    end
+    self.activeMap:update(dt)
+    
+    self.sender:sendToAll("updatePlayers", self.activeMap.players_data)
   end;
   
   draw = function(self)
