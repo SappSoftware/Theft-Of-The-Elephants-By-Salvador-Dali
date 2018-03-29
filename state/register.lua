@@ -14,11 +14,11 @@ function register:init()
   
   buttons.register.isSelectable = false
   
-  fields.username = FillableField(1/2, 1/2-5/40, 1/8, 1/20, "Enter Username", false, true)
-  fields.password = FillableField(1/2, 1/2-2/40, 1/8, 1/20, "Enter Password", false, true, 20, true)
-  fields.confirmPassword = FillableField(1/2, 1/2+1/40, 1/8, 1/20, "Confirm Password", false, true, 20, true)
+  fields.username = Field(1/2, 1/2-5/40, 1/8, 1/20, "Enter Username", false, true)
+  fields.password = Field(1/2, 1/2-2/40, 1/8, 1/20, "Enter Password", false, true, 20, true)
+  fields.confirmPassword = Field(1/2, 1/2+1/40, 1/8, 1/20, "Confirm Password", false, true, 20, true)
   
-  fields.ip = FillableField(1/2, 1/10, 1/8, 1/20, ipAddress, false)
+  fields.ip = Field(1/2, 1/10, 1/8, 1/20, ipAddress, false)
 end
 
 function register:update(dt)

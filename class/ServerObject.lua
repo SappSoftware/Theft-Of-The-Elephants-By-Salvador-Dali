@@ -28,7 +28,7 @@ ServerObject = Class{
     
     self.sender:on("disconnect", function(data, client)
       local index = client:getIndex()
-      self.activeMap:removePlayer(self.playerList[index])
+      --self.activeMap:removePlayer(self.playerList[index])
       self.sender:sendToAll("removePlayer", self.playerList[index])
       self.playerList[index] = nil
       
@@ -82,16 +82,16 @@ ServerObject = Class{
     
     self.sender:on("updatePlayer", function(data, client)
       local index = client:getIndex()
-      self.activeMap.players_data[data.player_id] = data
+      --self.activeMap.players_data[data.player_id] = data
     end)
   end;
   
   update = function(self, dt)
     self.sender:update(dt)
     
-    self.activeMap:update(dt)
+    --self.activeMap:update(dt)
     
-    self.sender:sendToAll("updatePlayers", self.activeMap.players_data)
+    --self.sender:sendToAll("updatePlayers", self.activeMap.players_data)
   end;
   
   draw = function(self)

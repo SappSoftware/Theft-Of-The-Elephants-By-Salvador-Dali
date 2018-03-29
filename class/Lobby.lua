@@ -7,7 +7,7 @@ Lobby = Class{
     self.currentPlayer = nil
     self.state = "lobby"
     self.isConnected = false
-    self.activeMap = nil
+    self.gameEngine = nil
   end;
   
   update = function(self, dt)
@@ -25,6 +25,8 @@ Lobby = Class{
   end;
   
   update_game = function(self, dt)
+    
+  end;
   
   draw = function(self)
     if self.state == "lobby" then

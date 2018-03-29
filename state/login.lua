@@ -12,10 +12,10 @@ function login:init()
   
   buttons.login.isSelectable = false
   
-  fields.username = FillableField(1/2, .45, 1/8, 1/20, "Enter Username", false, true)
-  fields.password = FillableField(.5, .525, 1/8, 1/20, "Enter Password", false, true, 100, true)
+  fields.username = Field(1/2, .45, 1/8, 1/20, "Enter Username", false, true)
+  fields.password = Field(.5, .525, 1/8, 1/20, "Enter Password", false, true, 100, true)
   
-  fields.ip = FillableField(.5, .1, 1/8, 1/20, ipAddress, false)
+  fields.ip = Field(.5, .1, 1/8, 1/20, ipAddress, false)
 end
 
 function login:enter(from)

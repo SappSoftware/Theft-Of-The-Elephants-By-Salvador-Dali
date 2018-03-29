@@ -5,6 +5,7 @@ local fields = {}
 local labels = {}
 
 function client_menu:init()
+  fields.lobbyID = Field(.5, 4/8, 1/8, 1/24, "Lobby ID", true, true, 20, false)
   buttons.createLobby = Button(.5, 5/8, 1/8, 1/12, "Create Lobby")
   buttons.joinLobby = Button(.5, 6/8, 1/8, 1/12, "Join Lobby")
   buttons.createLobby.action = self.createLobby
@@ -40,12 +41,26 @@ function client_menu:keypressed(key)
   if key == "escape" then
     love.event.quit()
   end
+  for i, field in pairs(fields) do
+    field:keypressed(key)
+  end
+end
+
+function client_menu:textinput(text)
+  for i, field in pairs(fields) do
+    field:textinput(text)
+  end
 end
 
 function client_menu:mousepressed(mousex,mousey,mouseButton)
   for i, button in pairs(buttons) do
     button:highlight(mousePos)
     button:mousepressed(mouseButton)
+  end
+  
+  for i, field in pairs(fields) do
+    field:highlight(mousePos)
+    field:mousepressed(mouseButton)
   end
 end
 

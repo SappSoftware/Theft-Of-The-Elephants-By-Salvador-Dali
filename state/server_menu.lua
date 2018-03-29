@@ -16,7 +16,7 @@ function server_menu:init()
   camera = Camera(0, 0)
   buttons.startServer = Button(1/2, 1/6, 1/8, 1/14, "Start Server")
   buttons.startServer.action = toggleServer
-  fields.ip = FillableField(1/2, 1/10, 1/8, 1/30, ipAddress, false)
+  fields.ip = Field(1/2, 1/10, 1/8, 1/30, ipAddress, false)
 end
 
 function server_menu:update(dt)

@@ -1,6 +1,6 @@
 debug = false
 
-isServer = true
+isServer = false
 
 Sock = require "sock"
 Bitser = require "bitser"
@@ -21,7 +21,7 @@ require "Tserial"
 require "class/ServerObject"
 require "class/ClientObject"
 require "class/Button"
-require "class/FillableField"
+require "class/Field"
 require "class/Label"
 require "class/Map"
 require "class/Player"

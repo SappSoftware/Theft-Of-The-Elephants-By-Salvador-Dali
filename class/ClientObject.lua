@@ -62,11 +62,11 @@ ClientObject = Class{
     end)
     
     self.sender:on("updatePlayers", function(data)
-      self.activeMap.players_data = data
+      --self.activeMap.players_data = data
     end)
     
     self.sender:on("removePlayer", function(data)
-      self.activeMap:removePlayer(data)
+      --self.activeMap:removePlayer(data)
     end)
   end;
   
@@ -78,11 +78,11 @@ ClientObject = Class{
     self.sender:update(dt)
     
     if self.activeMap ~= {} then
-      self.player:update(dt, mousePos)
+      --self.player:update(dt, mousePos)
       
-      self.activeMap:update(dt, self.user_data.username)
+      --self.activeMap:update(dt, self.user_data.username)
       
-      local data = {self.player:getUpdate()}
+      --local data = {self.player:getUpdate()}
       self.sender:send("updatePlayer", data)
     end
   end;
@@ -96,8 +96,8 @@ ClientObject = Class{
   end;
   
   draw_game = function(self)
-    self.player:flashlight()
-    self.activeMap:draw(self.player.player_id)
+    --self.player:flashlight()
+    --self.activeMap:draw(self.player.player_id)
   end;
   
   createLobby = function(self)
@@ -109,6 +109,6 @@ ClientObject = Class{
   end;
   
   joinMap = function(self)
-    self.sender:send("joinMap", self.user_data.username)
+    --self.sender:send("joinMap", self.user_data.username)
   end;
   }
