@@ -42,6 +42,18 @@ signals that match a `Lua string pattern
         end
     end
 
+List of Functions
+-----------------
+
+* :func:`Signal.new() <Signal.new>`
+* :func:`Signal.register(s, f) <Signal.register>`
+* :func:`Signal.emit(s, ...) <Signal.emit>`
+* :func:`Signal.remove(s, ...) <Signal.remove>`
+* :func:`Signal.clear(s) <Signal.clear>`
+* :func:`Signal.emitPattern(p, ...) <Signal.emitPattern>`
+* :func:`Signal.removePattern(p, ...) <Signal.removePattern>`
+* :func:`Signal.clearPattern(p) <Signal.clearPattern>`
+
 Function Reference
 ------------------
 
@@ -60,7 +72,7 @@ global registry. Likewise, the global registry does not affect the instance.
 .. note::
     Unlike the default one, signal registry instances use the colon-syntax,
     i.e., you need to call ``instance:emit('foo', 23)`` instead of
-    ``Signal.mit('foo', 23)``.
+    ``Signal.emit('foo', 23)``.
 
 **Example**::
 

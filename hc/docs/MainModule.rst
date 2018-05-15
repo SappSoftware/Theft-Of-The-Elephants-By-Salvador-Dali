@@ -152,7 +152,7 @@ will not be valid.
 
 **Example**::
 
-    bullets[#bulltes+1] = HC.point(player.pos.x, player.pos.y)
+    bullets[#bullets+1] = HC.point(player.pos.x, player.pos.y)
 
 
 .. function:: HC.register(shape)
@@ -205,7 +205,10 @@ Collision Detection
 
 
 Get shapes that are colliding with ``shape`` and the vector to separate the shapes.
-The separating vector points away from ``shape``.
+The separating vector points in the direction that ``shape`` has to move to clear
+the collission.
+The length of the vector is the minimal amount that either shape has to move to
+clear the collission.
 
 The table is a *set*, meaning that the shapes are stored in *keys* of the table.
 The *values* are the separating vector.
@@ -214,9 +217,9 @@ You can iterate over the shapes using ``pairs`` (see example).
 **Example**::
 
     local collisions = HC.collisions(shape)
-    for other, separating_vector in pairs(collisions)
-        shape:move(-separating_vector.x/2, -separating_vector.y/2)
-        other:move( separating_vector.x/2,  separating_vector.y/2)
+    for other, separating_vector in pairs(collisions) do
+        shape:move( separating_vector.x/2,  separating_vector.y/2)
+        other:move(-separating_vector.x/2, -separating_vector.y/2)
     end
 
 
@@ -237,7 +240,7 @@ You can iterate over the shapes using ``pairs`` (see example).
 **Example**::
 
     local candidates = HC.neighbors(shape)
-    for other in pairs(candidates)
+    for other in pairs(candidates) do
         local collides, dx, dy = shape:collidesWith(other)
         if collides then
             other:move(dx, dy)
@@ -245,6 +248,8 @@ You can iterate over the shapes using ``pairs`` (see example).
     end
 
 
-.. attribute:: HC.hash
+.. function:: HC.hash()
 
-Reference to the :class:`SpatialHash` instance.
+   :returns: :class:`SpatialHash`.
+
+Get a reference to the :class:`SpatialHash` instance.

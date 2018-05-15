@@ -1,6 +1,6 @@
-debug = false
+debug = true
 
-isServer = false
+isServer = true
 
 Sock = require "sock"
 Bitser = require "bitser"
@@ -54,7 +54,7 @@ FNT = {}
 
 mousePos = {}
 
-ipAddress = "192.168.0.13"
+ipAddress = "10.246.1.40"
 
 function love.load(arg)
   if debug then require("mobdebug").start() end
@@ -71,7 +71,7 @@ function love.load(arg)
   fpsCounter = Label("FPS", .015, .03, "left", CLR.WHITE)
   if isServer then
     --love.window.setFullscreen(false)
-    server_data = loadServerData()
+    --server_data = loadServerData()
     Gamestate.switch(server_menu)
   else 
     client = nil
@@ -161,7 +161,7 @@ end
 function loadServerData()
   local data = {}
   love.filesystem.setIdentity("totebsd_server")
-  if love.filesystem.exists("player_list.lua") then
+  if love.filesystem.getInfo("player_list.lua") ~= nil then
     local import_string = love.filesystem.read("player_list.lua")
     data = Tserial.unpack(import_string)
   else

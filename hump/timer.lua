@@ -32,7 +32,14 @@ local function _nothing_() end
 function Timer:update(dt)
 	local to_remove = {}
 
+	-- timers may create new timers, which leads to undefined behavior
+	-- in pairs() - so we need to put them in a different table first
+	local to_update = {}
 	for handle in pairs(self.functions) do
+		to_update[handle] = handle
+	end
+
+	for handle in pairs(to_update) do
 		-- handle: {
 		--   time = <number>,
 		--   after = <function>,
