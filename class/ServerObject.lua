@@ -29,8 +29,8 @@ ServerObject = Class{
     self.sender:on("disconnect", function(data, client)
       local index = client:getIndex()
       --self.activeMap:removePlayer(self.playerList[index])
-      self.sender:sendToAll("removePlayer", self.playerList[index])
-      self.playerList[index] = nil
+      --self.sender:sendToAll("removePlayer", self.playerList[index])
+      --self.playerList[index] = nil
       
     end)
     
@@ -98,10 +98,11 @@ ServerObject = Class{
     love.graphics.print(self.sender:getSocketAddress(), 5, 5)
     love.graphics.printf("Server Running!", SW/2-100, floor(SH/4), 200, "center", 0, 1, 1, 0, love.graphics.getFont():getHeight()/2)
     
-    self:drawPlayerList(600, 300)
+    --self:drawPlayerList(600, 300)
   end;
   
   drawPlayerList = function(self,x,y)
+    --[[
     love.graphics.setColor(CLR.WHITE)
     local i = 0
     for id, player in pairs(self.playerList) do
@@ -112,11 +113,11 @@ ServerObject = Class{
     love.graphics.rectangle("line", x, y, SW/4, SH/2)
     love.graphics.setColor(CLR.WHITE)
     love.graphics.print("Players Online:", x, y-love.graphics.getFont():getHeight())
-    
+    ]]--
   end;
   
   updatePlayerFile = function(self)
-    love.filesystem.write("player_list.lua", Tserial.pack(self.fullPlayerList))
+    --love.filesystem.write("player_list.lua", Tserial.pack(self.fullPlayerList))
   end;
 
 }
