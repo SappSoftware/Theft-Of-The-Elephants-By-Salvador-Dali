@@ -34,7 +34,7 @@ local sock = {
     ]]
 }
 
-require "enet"
+enet = require "enet"
 
 -- Current folder trick
 -- http://kiki.to/blog/2014/04/12/rule-5-beware-of-multiple-files/
@@ -1310,7 +1310,7 @@ sock.newServer = function(address, port, maxPeers, maxChannels, inBandwidth, out
 
     -- ip, max peers, max channels, in bandwidth, out bandwidth
     -- number of channels for the client and server must match
-    server.host = enet.host_create(server.address .. ":" .. server.port, server.maxPeers, 0, server.maxChannels, 0)
+    server.host = enet.host_create(server.address .. ":" .. server.port, server.maxPeers, server.maxChannels, 0)
 
     if not server.host then
         error("Failed to create the host. Is there another server running on :"..server.port.."?")

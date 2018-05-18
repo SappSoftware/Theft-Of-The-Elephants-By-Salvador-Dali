@@ -4,16 +4,8 @@ local buttons = {}
 local fields = {}
 local labels = {}
 
-local isWatching = false
-local watchPos = {}
-local cameraSpeed = 300
-
-local camera = {}
-
 function server_menu:init()
   server = nil
-  watchPos = Vector(0,0)
-  camera = Camera(0, 0)
   buttons.startServer = Button(1/2, 1/6, 1/8, 1/14, "Start Server")
   buttons.startServer.action = toggleServer
   fields.ip = Field(1/2, 1/10, 1/8, 1/30, ipAddress, false)
@@ -21,28 +13,6 @@ end
 
 function server_menu:update(dt)
   self:handleMouse(dt)
-  
-  local dx = 0
-  local dy = 0
-  if love.keyboard.isDown("w") then
-    dy = dy - 1
-  end
-  if love.keyboard.isDown("s") then
-    dy = dy + 1
-  end
-  if love.keyboard.isDown("a") then
-    dx = dx - 1
-  end
-  if love.keyboard.isDown("d") then
-    dx = dx + 1
-  end
-  
-  local delta = Vector(dx,dy)
-  delta:normalizeInplace()
-  delta = delta*cameraSpeed*dt
-  watchPos = watchPos + delta
-  
-  camera:lookAt(watchPos:unpack())
   
   for i, button in pairs(buttons) do
     button:update(dt)
@@ -60,27 +30,18 @@ end
 function server_menu:draw()
   drawFPS(fpsCounter)
   
-  if isWatching == false then
-    love.graphics.setBackgroundColor(CLR.BLACK)
-    for i, button in pairs(buttons) do
-      button:draw()
-    end
-    
-    for i, field in pairs(fields) do
-      field:draw()
-    end
-    
-    if server ~= nil then
-      server:draw()
-    end
-  else
-    camera:draw(self.draw_game)
+  love.graphics.setBackgroundColor(CLR.BLACK)
+  for i, button in pairs(buttons) do
+    button:draw()
   end
-end
-
-function server_menu:draw_game()
-  love.graphics.setBackgroundColor(CLR.WHITE)
-  --server.activeMap:draw()
+  
+  for i, field in pairs(fields) do
+    field:draw()
+  end
+  
+  if server ~= nil then
+    server:draw()
+  end
 end
 
 function server_menu:textinput(key)
@@ -94,13 +55,6 @@ end
 function server_menu:keypressed(key)
   for i, field in pairs(fields) do
     field:keypressed(key)
-  end
-  
-  
-  if key == "tab" then
-    if server then
-      isWatching = not isWatching
-    end
   end
   
   if key == "escape" then
