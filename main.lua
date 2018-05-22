@@ -1,4 +1,4 @@
-debug = true
+debug = false
 
 isServer = true
 
@@ -30,8 +30,10 @@ require "class/Stairway"
 require "class/Burglar"
 require "class/Investigator"
 require "class/Room"
+require "class/Lobby"
 
 require "state/server_menu"
+require "state/client_lobby"
 require "state/client_menu"
 require "state/login"
 require "state/register"
@@ -71,7 +73,7 @@ function love.load(arg)
   fpsCounter = Label("FPS", .015, .03, "left", CLR.WHITE)
   if isServer then
     --love.window.setFullscreen(false)
-    --server_data = loadServerData()
+    server_data = loadServerData()
     Gamestate.switch(server_menu)
   else 
     client = nil

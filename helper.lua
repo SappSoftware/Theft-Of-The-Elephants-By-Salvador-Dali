@@ -56,6 +56,13 @@ toSeed = function(seed)
   return returnSeed
 end
 
+randomString = function(num_letters)
+  local returnString = ""
+  for i = 1, num_letters do
+    returnString = returnString ..string.char(math.random(65, 90))
+  end
+end
+
 drawFPS = function(fpsLabel)
   
   fpsLabel:settext(love.timer:getFPS())

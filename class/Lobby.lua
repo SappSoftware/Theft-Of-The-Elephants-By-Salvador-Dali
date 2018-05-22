@@ -5,44 +5,16 @@ Lobby = Class{
     self.lobbyCreator = lobbyCreator
     self.players = {}
     self.currentPlayer = nil
-    self.state = "lobby"
     self.isConnected = false
-    self.gameEngine = nil
   end;
   
-  update = function(self, dt)
-    if self.state == "lobby" then
-      self:update_lobby(dt)
-    elseif self.state == "game" then
-      self:update_game(dt)
-    else
-      
-    end
-  end;
-  
-  update_lobby = function(self, dt)
+  addPlayer = function(self, player_data)
     
   end;
   
-  update_game = function(self, dt)
+  removePlayer = function(self, player_index)
     
   end;
   
-  draw = function(self)
-    if self.state == "lobby" then
-      self:draw_lobby()
-    elseif self.state == "game" then
-      self:draw_game()
-    else
-      
-    end
-  end;
   
-  draw_lobby = function(self)
-    
-  end;
-  
-  draw_game = function(self)
-    
-  end;
 }
