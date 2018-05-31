@@ -3,6 +3,7 @@ Lobby = Class{
     self.lobbyIndex = lobbyIndex
     self.lobbyName = lobbyName
     self.lobbyCreator = lobbyCreator
+    self.peers = {}
     self.players = {}
     self.currentPlayer = nil
     self.isConnected = false

@@ -71,6 +71,7 @@ ServerObject = Class{
     
     self.sender:on("joinLobby", function(data, client)
       
+      client.connection
     end)
     
     self.sender:on("joinMap", function(data, client)

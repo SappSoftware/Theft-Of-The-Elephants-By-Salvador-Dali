@@ -363,6 +363,23 @@ function Server:sendToPeer(peer, event, data)
     self:resetSendSettings()
 end
 
+
+function Server:sendToGroup(group, event, data)
+    local message = {event, data}
+    local serializedMessage
+    if type(data) == "userdata" and data.type and data:typeOf("Data") then
+        message[2] = data:getString()
+        serializedMessage = self.serialize(message)
+    else
+        serializedMessage = self.serialize(message)
+    end
+    
+    for _, peer in group do
+      self.packetsSent = self.packetsSent + 1
+      peer:send(serializedMessage, self.sendChannel, self.sendMode)
+    end
+    self:resetSendSettings()
+end
 --- Add a callback to an event.
 -- @tparam string event The event that will trigger the callback.
 -- @tparam function callback The callback to be triggered.
