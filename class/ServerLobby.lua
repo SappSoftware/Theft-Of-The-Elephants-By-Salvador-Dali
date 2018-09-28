@@ -17,5 +17,11 @@ Lobby = Class{
     
   end;
   
+  connectToLobby = function(self, peer)
+    
+  end;
   
+  disconnectFromLobby = function(self, peer)
+    
+  end;
 }

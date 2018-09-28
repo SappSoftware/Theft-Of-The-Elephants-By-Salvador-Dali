@@ -66,12 +66,12 @@ ServerObject = Class{
     end)
     
     self.sender:on("createLobby", function(data, client)
-      
+      --local connectid = client:getConnectId()
     end)
     
     self.sender:on("joinLobby", function(data, client)
       
-      client.connection
+      --client.connection
     end)
     
     self.sender:on("joinMap", function(data, client)

@@ -176,8 +176,7 @@ local function write_table(value, seen)
 	local classname = (class_name_registry[value.class] -- MiddleClass
 		or class_name_registry[value.__baseclass] -- SECL
 		or class_name_registry[getmetatable(value)] -- hump.class
-		or class_name_registry[value.__class__] -- Slither
-		or class_name_registry[value.__class]) -- Moonscript class
+		or class_name_registry[value.__class__]) -- Slither
 	if classname then
 		classkey = classkey_registry[classname]
 		Buffer_write_byte(242)
@@ -355,10 +354,6 @@ local function deserialize_Slither(instance, class)
 	return getmetatable(class).allocate(instance)
 end
 
-local function deserialize_Moonscript(instance, class)
-	return setmetatable(instance, class.__base)
-end
-
 return {dumps = function(value)
 	serialize(value)
 	return ffi.string(buf, buf_pos)
@@ -386,7 +381,7 @@ end, unregister = function(name)
 end, registerClass = function(name, class, classkey, deserializer)
 	if not class then
 		class = name
-		name = class.__name__ or class.name or class.__name
+		name = class.__name__ or class.name
 	end
 	if not classkey then
 		if class.__instanceDict then
@@ -396,7 +391,7 @@ end, registerClass = function(name, class, classkey, deserializer)
 			-- assume SECL
 			classkey = '__baseclass'
 		end
-		-- assume hump.class, Slither, Moonscript class or something else that doesn't store the
+		-- assume hump.class, Slither, or something else that doesn't store the
 		-- class directly on the instance
 	end
 	if not deserializer then
@@ -412,9 +407,6 @@ end, registerClass = function(name, class, classkey, deserializer)
 		elseif class.__name__ then
 			-- assume Slither
 			deserializer = deserialize_Slither
-		elseif class.__base then
-			-- assume Moonscript class
-			deserializer = deserialize_Moonscript
 		else
 			error("no deserializer given for unsupported class library")
 		end
