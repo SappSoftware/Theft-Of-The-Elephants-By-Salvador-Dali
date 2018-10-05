@@ -1,6 +1,6 @@
 debug = false
 
-isServer = true
+isServer = false
 
 Sock = require "sock"
 Bitser = require "bitser"
@@ -30,7 +30,8 @@ require "class/Stairway"
 require "class/Burglar"
 require "class/Investigator"
 require "class/Room"
-require "class/Lobby"
+require "class/ServerLobby"
+require "class/ClientLobby"
 
 require "state/server_menu"
 require "state/client_lobby"

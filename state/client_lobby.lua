@@ -5,21 +5,16 @@ local fields = {}
 local labels = {}
 
 function client_lobby:init()
-  fields.lobbyID = Field(.5, 4/8, 1/8, 1/24, "Lobby ID", true, true, 20, false)
-  buttons.createLobby = Button(.5, 5/8, 1/8, 1/12, "Create Lobby")
-  buttons.joinLobby = Button(.5, 6/8, 1/8, 1/12, "Join Lobby")
-  buttons.createLobby.action = self.createLobby
-  buttons.joinLobby.action = self.joinLobby
+  text, x, y, alignment, color, font
+  labels.lobbyID = Label("Lobby ID", .5, 4/8, "center")
+  buttons.ready = Button(.5, 5/8, 1/8, 1/12, "Create Lobby")
+  buttons.ready.action = self.ready
 end
 
 function client_lobby:update(dt)
   self:handleMouse(dt)
   
   client:update_lobby(dt)
-  
-  if client.lobby.isConnected == true then
-    Gamestate.switch(game)
-  end
 end
 
 function client_lobby:draw()

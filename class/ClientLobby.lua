@@ -1,9 +1,8 @@
 Lobby = Class{
-  init = function(self, lobbyName, lobbyCreator)
+  init = function(self, lobbyName, lobbyHost)
     self.lobbyName = lobbyName
-    self.lobbyCreator = lobbyCreator
+    self.lobbyHost = lobbyHost
     self.players = {}
-    self.currentPlayer = nil
     self.isConnected = false
   end;
   
